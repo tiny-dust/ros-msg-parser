@@ -6,7 +6,7 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"includes": ["src/**/*"],
+		"includes": ["src/**/*", "!vite.config.*"],
 		"ignoreUnknown": true
 	},
 	"formatter": {
