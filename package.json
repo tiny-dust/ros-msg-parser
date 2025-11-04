@@ -2,6 +2,14 @@
   "name": "ros-msg-parser",
   "version": "0.0.1",
   "description": "ROS消息/服务/动作文件处理脚本集合",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tiny-dust/ros-msg-parser"
+  },
+  "homepage": "https://github.com/tiny-dust/ros-msg-parser#readme",
+  "bugs": {
+    "url": "https://github.com/tiny-dust/ros-msg-parser/issues"
+  },
   "type": "module",
   "sideEffects": false,
   "engines": {
