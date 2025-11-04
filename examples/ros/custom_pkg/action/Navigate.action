@@ -1,0 +1,10 @@
+# Navigate to a target pose
+
+# Goal
+geometry_msgs/Pose target
+---
+# Feedback
+float32 progress   # 0.0~1.0
+---
+# Result
+bool reached

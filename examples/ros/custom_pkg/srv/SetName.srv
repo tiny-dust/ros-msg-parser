@@ -1,0 +1,6 @@
+# Set the robot's name
+
+string name
+---
+bool success
+string message
