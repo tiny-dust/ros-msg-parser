@@ -26,7 +26,10 @@
     "format": "biome format ./src --write",
     "prepare": "husky",
     "prerelease": "pnpm lint",
-    "release": "standard-version"
+    "release": "release-it",
+    "release:patch": "release-it patch",
+    "release:minor": "release-it minor",
+    "release:major": "release-it major"
   },
   "exports": {
     ".": {
@@ -70,6 +73,7 @@
     "typescript": "~5.9.2",
     "vite": "7.1.12",
     "vite-plugin-dts": "^4.3.0",
-    "standard-version": "9.5.0"
+    "release-it": "19.0.5",
+    "@release-it/conventional-changelog": "10.0.1"
   }
 }

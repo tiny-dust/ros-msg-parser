@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/release-it/release-it/main/schema/release-it.json",
+  "git": {
+    "requireCleanWorkingDir": true,
+    "commit": true,
+    "commitMessage": "chore(release): v${version}",
+    "tag": true,
+    "tagName": "v${version}",
+    "push": true
+  },
+  "github": {
+    "release": true,
+    "draft": false,
+    "tokenRef": "GITHUB_TOKEN"
+  },
+  "npm": {
+    "publish": false
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "conventionalcommits",
+      "infile": "CHANGELOG.md",
+      "header": "# Changelog\n"
+    }
+  },
+  "hooks": {
+    "before:init": ["pnpm lint"],
+    "after:bump": ["pnpm build"]
+  }
+}

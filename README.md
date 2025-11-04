@@ -144,6 +144,48 @@ int32 mode           # Current mode
 - `index.ts` 包导出入口
 - `vite.config.ts` 打包配置（产出 ESM + CJS）
 
+## 发布版本
+
+本仓库使用 release-it 进行发版、打 tag、生成变更日志并创建 GitHub Release。
+
+准备：
+
+- 确保当前分支工作区干净且已与远端同步。
+- 设置 GitHub Token（至少需要 repo 权限）。macOS/Linux 可在当前终端设置：
+
+  ```sh
+  export GITHUB_TOKEN=ghp_xxx
+  ```
+
+常用命令：
+
+- 预演（不会做任何写操作）：
+  ```sh
+  pnpm release -- --dry-run
+  ```
+- 发布补丁版本：
+  ```sh
+  pnpm release:patch
+  ```
+- 发布次版本：
+  ```sh
+  pnpm release:minor
+  ```
+- 发布主版本：
+  ```sh
+  pnpm release:major
+  ```
+
+流程说明：
+
+1. 运行代码检查（`pnpm lint`）。
+2. 依据 Conventional Commits 生成版本与 `CHANGELOG.md`。
+3. 执行构建（`pnpm build`）。
+4. 生成并推送 tag（`vX.Y.Z`）。
+5. 创建 GitHub Release，并附带变更内容。
+
+提示：当前未开启 npm 发布（`.release-it.json` 中 `npm.publish=false`）。如需发布到 npm，可开启该选项并配置 `NPM_TOKEN`。
+
 ## 许可证
 
 MIT
