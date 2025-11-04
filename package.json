@@ -1,6 +1,6 @@
 {
   "name": "ros-msg-parser",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "ROS消息/服务/动作文件处理脚本集合",
   "repository": {
     "type": "git",
