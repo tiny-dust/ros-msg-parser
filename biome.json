@@ -6,7 +6,8 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"includes": ["src/**/*"]
+		"includes": ["src/**/*"],
+		"ignoreUnknown": true
 	},
 	"formatter": {
 		"enabled": true,
