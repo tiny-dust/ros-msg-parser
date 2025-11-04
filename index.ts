@@ -1,1 +1,1 @@
-export * from './ros-to-ts/src/index';
+export * from "./src/index";
