@@ -1,20 +1,11 @@
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import fse from "fs-extra";
 import { BuiltInMsg, BuiltInTypes, DataTypeMap, failure } from ".";
 import type { Field, Parse, ParseFileOptions, ParseResult } from "./types";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 const enumRegex =
 	/^enum ([A-Za-z_][A-Za-z0-9_]*)\s*=\s*([-+]?\d+(?:\.\d+)?)(?:\s+(.*))?$/; // enum field=value comment
 
-export const CLI_PACKAGE_JSON = resolve(__dirname, "../package.json");
-
-export function getCliVersion() {
-	return fse.readJsonSync(CLI_PACKAGE_JSON).version;
-}
+// Note: CLI-specific utilities (like reading package version) are implemented in src/cli.ts
 
 /**
  * 将输入转换成大驼峰命名
@@ -367,7 +358,9 @@ export function genTsContent(params: Parse[]) {
 			continue;
 		}
 
-		output += `export ${item.isEnum ? "enum" : "interface"} ${item.namespace} {\n`;
+		output += `export ${item.isEnum ? "enum" : "interface"} ${
+			item.namespace
+		} {\n`;
 
 		for (const field of item.fields) {
 			// 生成字段描述
@@ -433,7 +426,9 @@ export function genTsContent(params: Parse[]) {
 						BuiltInTypes[field.type]?.namespace ??
 						DataTypeMap[field.type] ??
 						field.type;
-					output += `  ${field.name}: ${field.type}${field.isArray ? "[]" : ""};\n`;
+					output += `  ${field.name}: ${field.type}${
+						field.isArray ? "[]" : ""
+					};\n`;
 				}
 				output += "}\n\n";
 			} else {

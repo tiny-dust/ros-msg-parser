@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 export default defineConfig({
 	plugins: [
 		dts({
-			include: ["index.ts", "src/**/*"],
+			include: ["src/**/*"],
 			outDir: "dist",
 			insertTypesEntry: true,
 		}),
@@ -18,7 +18,7 @@ export default defineConfig({
 		outDir: "dist",
 		lib: {
 			entry: {
-				index: resolve(__dirname, "index.ts"),
+				index: resolve(__dirname, "src/index.ts"),
 				cli: resolve(__dirname, "src/cli.ts"),
 			},
 			formats: ["cjs", "es"],
@@ -39,6 +39,8 @@ export default defineConfig({
 				"process",
 				"os",
 				"url",
+				"node:path",
+				"node:url",
 			],
 		},
 	},
