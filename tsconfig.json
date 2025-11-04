@@ -1,16 +1,15 @@
 {
-	"compilerOptions": {
-		"lib": ["esnext", "dom"],
-		"target": "esnext",
-		"module": "esnext",
-		"moduleResolution": "bundler",
-		"outDir": "./dist",
-		"strict": true,
-		"declaration": true,
-		"skipLibCheck": true,
-		"esModuleInterop": true,
-		"types": ["node", "vitest/globals"]
-	},
-	"include": ["src/**/*.ts"],
-	"exclude": ["dist", "node_modules"]
+  "compilerOptions": {
+    "lib": ["esnext", "dom"],
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "outDir": "./dist",
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["dist", "node_modules"]
 }

@@ -4,15 +4,16 @@
 	"description": "ROS消息/服务/动作文件处理脚本集合",
 	"type": "module",
 	"sideEffects": false,
+	"packageManager": "pnpm@9.12.2",
 	"engines": {
 		"node": ">=18.18"
 	},
 	"scripts": {
 		"dev": "vite build --watch",
 		"build": "vite build",
-		"example": "node dist/cli.js parser",
-		"example:build": "pnpm build && node dist/cli.js ros-msg-parser",
-		"clean": "rimraf node_modules dist coverage",
+		"examples": "node dist/cli.js",
+		"examples:build": "pnpm build && node dist/cli.js",
+		"clean": "rimraf node_modules dist",
 		"lint": "biome check .",
 		"lint:fix": "biome check . --write",
 		"format": "biome format . --write",
@@ -36,7 +37,7 @@
 		"ros-msg-parser": "dist/cli.js"
 	},
 	"lint-staged": {
-		"*.{ts,tsx,js,jsx,json,md,yml,yaml}": [
+		"*.{ts,tsx,js,jsx,json,md}": [
 			"biome check --write"
 		]
 	},

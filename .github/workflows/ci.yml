@@ -21,5 +21,4 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm build
-      # 可选：确保示例可解析
-      - run: pnpm examples:build
+      - run: pnpm examples
