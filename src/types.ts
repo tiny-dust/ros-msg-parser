@@ -1,5 +1,6 @@
 export interface ParseConfig {
-	repo: string;
+	/** 输入源：支持 Git 仓库地址或本地目录路径 */
+	input: string;
 	/** 分支 */
 	branch?: string;
 	/** 克隆到本地的路径 */

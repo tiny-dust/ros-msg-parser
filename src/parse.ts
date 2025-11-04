@@ -1,8 +1,8 @@
-import { join } from "node:path";
+import { isAbsolute, join, resolve } from "node:path";
 import fse from "fs-extra";
 import { glob } from "glob";
 import simpleGit, { type SimpleGit } from "simple-git";
-import type { Parse, ParseFileOptions } from ".";
+import type { Parse, ParseConfig, ParseFileOptions } from ".";
 import { getConfig } from "./config";
 import { format, icons, log, success } from "./logger";
 import {
@@ -14,7 +14,6 @@ import {
 } from "./utils";
 
 const git: SimpleGit = simpleGit();
-
 async function cloneRepo(repo: string, cloneDir: string, branch: string) {
 	const repoName = repo.split("/").pop()?.replace(".git", "");
 	if (!repoName) {
@@ -104,18 +103,39 @@ function parseFile(dirs: string, options: ParseFileOptions): Parse[] {
 	return content;
 }
 
-export async function main() {
+export async function generate(config: ParseConfig) {
 	const {
-		repo,
+		input,
 		cloneDir = "node_modules/.cache",
 		clean = true,
 		output = "ros.d.ts",
 		branch = "main",
 		module = "",
-	} = await getConfig();
+	} = config;
 
-	const repoFullPath = await cloneRepo(repo, cloneDir, branch);
-	const parseJson = parseFile(repoFullPath, { module });
+	if (!input) {
+		throw new Error(
+			"Missing required config: input (git url or local directory)",
+		);
+	}
+
+	const isGit =
+		input.startsWith("git@") ||
+		input.startsWith("http://") ||
+		input.startsWith("https://") ||
+		input.endsWith(".git");
+
+	const sourceDir = isGit
+		? await cloneRepo(input, cloneDir, branch)
+		: (() => {
+				const p = isAbsolute(input) ? input : resolve(process.cwd(), input);
+				if (!fse.existsSync(p)) {
+					throw new Error(`Input directory not found: ${p}`);
+				}
+				return p;
+			})();
+
+	const parseJson = parseFile(sourceDir, { module });
 	const content = genTsContent(parseJson);
 	// 输出到文件 如果文件不存在就创建
 	if (clean) {
@@ -123,4 +143,9 @@ export async function main() {
 	}
 	await fse.outputFile(output, content, "utf-8");
 	success(format("", "TypeScript definitions generated at", output));
+}
+
+export async function main() {
+	const config = await getConfig();
+	return generate(config);
 }

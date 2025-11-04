@@ -1,6 +1,6 @@
 # ros-msg-parser
 
-ROS 消息/服务/动作（msg/srv/action）解析并生成 TypeScript 类型的工具与脚本集合。
+ROS 消息/服务/动作（msg/srv/action）解析并生成 TypeScript 类型的工具与脚本集合。当前脚本为自用脚本，内置 msg/srv/action 类型不完善。请谨慎使用。
 
 ## 功能
 
@@ -9,7 +9,6 @@ ROS 消息/服务/动作（msg/srv/action）解析并生成 TypeScript 类型的
 - 生成带注释的 TypeScript 接口/枚举定义
 - CLI：一键拉取仓库、解析并输出到 `ros.d.ts`
 
-<!-- ts-pattern 相关说明已移除：项目不再使用 ts-pattern -->
 
 ## 安装与使用
 
@@ -25,9 +24,11 @@ npm i -D ros-msg-parser
 import { defineConfig } from 'ros-msg-parser';
 
 export default defineConfig({
-  repo: 'https://github.com/ros2/common_interfaces.git',
-  branch: 'rolling',
-  cloneDir: 'node_modules/.cache',
+  // 支持 Git 仓库地址或本地目录路径
+  // Git 地址时才会使用 branch/cloneDir；本地目录则直接读取
+  input: 'https://github.com/ros2/common_interfaces.git',
+  branch: 'rolling',          // 仅当 input 为 Git 地址时生效
+  cloneDir: 'node_modules/.cache', // 仅当 input 为 Git 地址时生效
   module: 'std_msgs',
   output: 'ros.d.ts',
 });
@@ -45,22 +46,35 @@ npx ros-msg-parser
 - 单测：`npm test` / `npm run test:watch`
 - 代码风格：`npm run lint` / `npm run lint:fix` / `npm run format`
 
-## CI 与发布
+### 快速演示：解析 examples 目录
 
-- 持续集成：推送到 `main` 或 PR 将自动执行 Lint、Build、Test（见 `.github/workflows/ci.yml`）。
-- 发布到 npm：推送标签 `v*` 会自动发布（见 `.github/workflows/release.yml`）。
-  - 在仓库 Secrets 配置 `NPM_TOKEN`（具有发布权限）。
-  - 示例：
+本仓库内置了示例 ROS 文件（位于 `examples/ros`）。新增了一个命令用于直接解析示例：
 
-  ```bash
-  git tag v0.1.0
-  git push origin v0.1.0
-  ```
+```bash
+# 使用已存在的构建产物（推荐先运行 dev 或 build）
+npm run examples
+
+# 先构建再解析（一次性）
+npm run examples:build
+
+# 或者开发模式：另开一个终端持续构建
+npm run dev    # 终端 A，持续产出 dist/
+npm run examples  # 终端 B，使用 dist/ 进行解析
+```
+
+等价的 CLI 子命令为：
+
+```bash
+npx ros-msg-parser examples \
+  --input examples/ros \
+  --module custom_pkg \
+  --output ros.d.ts
+```
+
 
 ## 目录结构
 
 - `src/` 核心实现（解析器、内置类型、日志等）
-- `tests/` 单元测试
 - `index.ts` 包导出入口
 - `vite.config.ts` 打包配置（产出 ESM + CJS）
 
