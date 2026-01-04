@@ -1,6 +1,8 @@
 # ros-msg-parser
 
-ROS 消息/服务/动作（msg/srv/action）解析并生成 TypeScript 类型的工具与脚本集合。当前脚本为自用脚本，内置 msg/srv/action 类型不完善。请谨慎使用。
+ROS 消息/服务/动作（msg/srv/action）解析并生成 TypeScript 类型的工具与脚本集合。当前脚本为自用脚本，内置 msg/srv/action 类型不完善，还在持续补充中。请谨慎使用，也欢迎大家可以 pr 补充。
+
+[官方内置类型地址](https://github.com/ros2/common_interfaces)
 
 ## 功能
 
