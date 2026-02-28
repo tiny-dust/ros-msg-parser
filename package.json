@@ -1,6 +1,6 @@
 {
   "name": "ros-msg-parser",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "ROS消息/服务/动作文件处理脚本集合",
   "publishConfig": {
     "registry": "http://nexus.tars-ai.com/repository/tars-npm/"
