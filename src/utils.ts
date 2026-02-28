@@ -110,7 +110,6 @@ export function parseContent(
 					fields: [...constants],
 				});
 				constants.length = 0;
-				untrackComment = [];
 			}
 		}
 
@@ -127,13 +126,21 @@ export function parseContent(
 
 		// 获取类型描述
 		if (trimmedLine.startsWith("#") && fields.length === 0) {
-			desc.push(trimmedLine.replace(/^#\s?/, ""));
+			const comment = trimmedLine.replace(/^#\s?/, "");
+			// 过滤掉枚举字段标记注释
+			if (!comment.startsWith("field")) {
+				desc.push(comment);
+			}
 			continue;
 		}
 
 		// 获取字段信息
 		const [fieldPart, comment] = trimmedLine.split("#");
-		const [type, name] = fieldPart.split(" ");
+		const parts = fieldPart.trim().split(/\s+/);
+		if (parts.length < 2) continue;
+
+		const type = parts[0];
+		const name = parts.slice(1).join(" ");
 
 		if (!type || !name) continue;
 
@@ -146,11 +153,31 @@ export function parseContent(
 			//  说明定义了字段追踪 并且有自己的注释
 			if (untrackComment.length > 0 && untrackComment[0].startsWith("field")) {
 				const enumName = untrackComment[0].replace("field", "").trim();
+				const lastEnumName =
+					untrackEnum.length > 0
+						? untrackEnum[untrackEnum.length - 1].name
+						: null;
 
-				untrackEnum.push({
-					name: enumName,
-					namespace,
-				});
+				// 如果是不同的字段名，需要先生成之前的枚举
+				if (constants.length > 0 && lastEnumName && lastEnumName !== enumName) {
+					const prevEnumName = untrackEnum[untrackEnum.length - 1];
+					result.push({
+						namespace: toPascalCase(prevEnumName.namespace, prevEnumName.name),
+						desc: [],
+						isEnum: true,
+						required,
+						fields: [...constants],
+					});
+					constants.length = 0;
+				}
+
+				// 只有当是新字段名时才添加到 untrackEnum
+				if (lastEnumName !== enumName) {
+					untrackEnum.push({
+						name: enumName,
+						namespace,
+					});
+				}
 			}
 			const enumDescription = untrackComment.filter(
 				(c) => !c?.startsWith("field"),
@@ -179,7 +206,6 @@ export function parseContent(
 				fields: [...constants],
 			});
 			constants.length = 0;
-			untrackComment = [];
 		}
 
 		let finallyComment = [...untrackComment, comment?.trim()].filter(Boolean);

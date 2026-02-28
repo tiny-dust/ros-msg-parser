@@ -1,0 +1,38 @@
+# 机器控制 srv
+
+#field station
+uint32 STATION_ALL = 0
+uint32 STATION_SEEDING = 1
+uint32 STATION_REPLENISH = 2
+
+#field control
+uint32 CONTROL_START = 0
+uint32 CONTROL_PAUSE = 1
+uint32 CONTROL_RESUME = 2
+uint32 CONTROL_FINISH = 3
+
+#field operation_mode
+uint32 OPERATION_MODE_DEFAULT = 0
+#field operation_mode
+uint32 OPERATION_MODE_DEMO = 1
+#field operation_mode
+uint32 OPERATION_MODE_INTERACTIVE = 2
+
+#field loop_type
+uint32 LOOP_TYPE_RANDOM = 1
+#field loop_type
+uint32 LOOP_TYPE_SEQUENTIAL = 2
+
+uint32 station
+uint32 control
+string[] tree_names
+uint32 col
+uint32 row
+uint32 operation_mode
+uint32 loop_type # demo mode loop type
+uint32 col_start # demo mode loop running start col
+uint32 col_end   # demo mode loop running start col
+---
+#result
+bool success
+string message
